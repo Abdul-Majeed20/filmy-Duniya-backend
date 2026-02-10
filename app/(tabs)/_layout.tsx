@@ -1,35 +1,99 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { icons } from "@/constants/icons";
+import { images } from "@/constants/images";
+import { Tabs } from "expo-router";
+import React from "react";
+import { Image, ImageBackground, Text, View } from "react-native";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const _layout = () => {
+  const TabIcon = ({focused , icon , title}: any) => {
+    if (focused) {
+    return (
+      <ImageBackground
+        source={images.highlight}
+        className="flex flex-row flex-1 min-w-[112px] min-h-14 mt-4 rounded-full overflow-hidden w-full items-center justify-center"
+      >
+        <Image source={icon} tintColor="#151312" className="size-5" />
+        <Text
+          className={`ml-2 text-secondary text-base font-semibold`}
+        >
+          {title}
+        </Text>
+      </ImageBackground>
+    );
+  }
 
   return (
-    <Tabs
+    <View className="size-full flex justify-center mt-4 items-center rounded-full">
+      <Image source={icon} tintColor="#A8B5DB" className="size-5" />
+    </View>
+  )
+
+}
+  return (
+    <Tabs 
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarShowLabel: false,
+        tabBarItemStyle: {
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        tabBarStyle: {
+          backgroundColor: '#0f0d23',
+          borderRadius: 50,
+          marginHorizontal: 10,
+          marginBottom: 36,
+          height: 52,
+          position: 'absolute',
+          overflow: 'hidden',
+          borderWidth: 1,
+          borderColor: '#0f0d23'
+        }
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+          <TabIcon focused={focused} icon={icons.home} title="Home"/>
+          )
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="Saved"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Saved",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+          <TabIcon focused={focused} icon={icons.save} title="Saved"/>
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="Search"
+        options={{
+          title: "Search",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+          <TabIcon focused={focused} icon={icons.search} title="Search"/>
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        options={{
+          title: "Profile",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+          <TabIcon focused={focused} icon={icons.person} title="Profile"/>
+          )
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default _layout;
